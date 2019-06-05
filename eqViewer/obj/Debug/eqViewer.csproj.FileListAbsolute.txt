@@ -1,0 +1,16 @@
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\bin\Debug\eqViewer.exe.config
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\bin\Debug\eqViewer.exe
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\bin\Debug\eqViewer.pdb
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\obj\Debug\eqViewer.csprojAssemblyReference.cache
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\obj\Debug\eqViewer.Form1.resources
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\obj\Debug\eqViewer.Properties.Resources.resources
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\obj\Debug\eqViewer.csproj.GenerateResource.cache
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\obj\Debug\eqViewer.csproj.CoreCompileInputs.cache
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\obj\Debug\eqViewer.exe
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\obj\Debug\eqViewer.pdb
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\bin\Debug\HtmlAgilityPack.dll
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\bin\Debug\HtmlAgilityPack.pdb
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\bin\Debug\HtmlAgilityPack.xml
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\obj\Debug\eqViewer.csproj.CopyComplete
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\bin\Debug\Newtonsoft.Json.dll
+D:\Visual Studio 2019\Projects\repos\eqViewer\eqViewer\bin\Debug\Newtonsoft.Json.xml
