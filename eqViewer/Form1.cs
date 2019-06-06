@@ -16,6 +16,7 @@ namespace eqViewer
     public partial class Form1 : Form
     {
         DateTime dt = new DateTime();
+        DateTime? cachedEQTime = null;
         public Form1()
         {
             InitializeComponent();
@@ -31,7 +32,6 @@ namespace eqViewer
             labelNowTime.Text = updateNowTime();
             timer1.Start();
             timer2.Start();
-            timer3.Start();
         }
 
         public string hinetInfo()
@@ -56,17 +56,12 @@ namespace eqViewer
 
         public string kyoshinUrl()
         {
-            string time;
+            string time, date;
             dt = DateTime.Now;
-            if (dt.Second % 2 == 0)
-            {
-                time = dt.AddSeconds(-2).ToString("yyyyMMddHHmmss");
-            }
-            else
-            {
-                time = dt.AddSeconds(-3).ToString("yyyyMMddHHmmss");
-            }
-            return $"https://realtime-earthquake-monitor.appspot.com/jma_s/{time}";
+            time = dt.AddSeconds(-2).ToString("yyyyMMddHHmmss");
+            date = dt.AddSeconds(-2).ToString("yyyyMMdd");
+            //return $"https://realtime-earthquake-monitor.appspot.com/jma_s/{time}";
+            return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/jma_s/{date}/{time}.jma_s.gif";
         }
 
         public string eqUrl()
@@ -100,6 +95,14 @@ namespace eqViewer
                 }
                 eq += $"{info.features[i].properties.name}, ";
             }
+            if(cachedEQTime == null)
+            {
+                cachedEQTime = data.objects[0].OriginDateTime;
+            }
+            else if(cachedEQTime != data.objects[0].OriginDateTime)
+            {
+                MessageBox.Show($"最大震度{data.objects[0].MaxInt}の地震情報を取得しました。", "eqViewer", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             labelEQTime.Text = data.objects[0].OriginDateTime.ToString("yyyy年MM月dd日 HH時mm分ごろ");
             labelSingen.Text = data.objects[0].Hypocenter;
             labelMaxInt.Text = data.objects[0].MaxInt;
@@ -113,7 +116,6 @@ namespace eqViewer
 
         public void eew()
         {
-            string info = "";
             var wc = new System.Net.WebClient();
             wc.Encoding = Encoding.UTF8;
             string json = wc.DownloadString("https://api.iedred7584.com/eew/json/");
@@ -141,6 +143,8 @@ namespace eqViewer
         private void Timer1_Tick(object sender, EventArgs e)
         {
             pictureBox1.ImageLocation = kyoshinUrl();
+            eew();
+            labelNowTime.Text = updateNowTime();
         }
 
         private void Timer2_Tick(object sender, EventArgs e)
@@ -150,11 +154,6 @@ namespace eqViewer
             textBox1.Text = hinetInfo();
         }
 
-        private void Timer3_Tick(object sender, EventArgs e)
-        {
-            eew();
-            labelNowTime.Text = updateNowTime();
-        }
 
         private void Button1_Click(object sender, EventArgs e)
         {
