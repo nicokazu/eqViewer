@@ -98,10 +98,17 @@ namespace eqViewer
             if(cachedEQTime == null)
             {
                 cachedEQTime = data.objects[0].OriginDateTime;
+                notifyIcon1.BalloonTipTitle = $"最大震度{data.objects[0].MaxInt}の地震情報を取得しました。";
+                notifyIcon1.BalloonTipText = $"{data.objects[0].OriginDateTime.ToString("yyyy年MM月dd日 HH時mm分ごろ")}\r\n震源:{data.objects[0].Hypocenter} M{data.objects[0].Magnitude}\r\n{detail.Comments}";
+                notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
+                notifyIcon1.ShowBalloonTip(3000);
             }
             else if(cachedEQTime != data.objects[0].OriginDateTime)
             {
-                MessageBox.Show($"最大震度{data.objects[0].MaxInt}の地震情報を取得しました。", "eqViewer", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                notifyIcon1.BalloonTipTitle = $"最大震度{data.objects[0].MaxInt}の地震情報を取得しました。";
+                notifyIcon1.BalloonTipText = $"{data.objects[0].OriginDateTime.ToString("yyyy年MM月dd日 HH時mm分ごろ")}\r\n震源:{data.objects[0].Hypocenter} M{data.objects[0].Magnitude}\r\n{detail.Comments}";
+                notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
+                notifyIcon1.ShowBalloonTip(3000);
             }
             labelEQTime.Text = data.objects[0].OriginDateTime.ToString("yyyy年MM月dd日 HH時mm分ごろ");
             labelSingen.Text = data.objects[0].Hypocenter;
