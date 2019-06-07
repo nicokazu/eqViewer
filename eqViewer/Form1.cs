@@ -17,6 +17,8 @@ namespace eqViewer
     {
         DateTime dt = new DateTime();
         DateTime? cachedEQTime = null;
+        int? cachedEEWSerial = null;
+        bool startup = true;
         public Form1()
         {
             InitializeComponent();
@@ -74,8 +76,9 @@ namespace eqViewer
         }
         public string sindo()
         {
+            string[] Int = { "7", "6+", "6-", "5+", "5-", "4", "3", "2", "1" };
             string eq = "";
-            int sindo;
+            int judge = 0;
             var wc = new System.Net.WebClient();
             wc.Encoding = Encoding.UTF8;
             string json = wc.DownloadString("https://quake.one/api/list.json?limit=1");
@@ -84,16 +87,22 @@ namespace eqViewer
             var info = JsonConvert.DeserializeObject<quakeInfo>(json);
             json = wc.DownloadString($"http://files.quake.one/{data.objects[0].EventID}/info.json");
             var detail = JsonConvert.DeserializeObject<quakeDetail>(json);
-            eq += $"【震度{info.features[1].properties.@class}】";
-            sindo = int.Parse(info.features[1].properties.@class);
-            for (int i = 1; i < info.features.Length; i++)
+            for (int i = 0; i < Int.Length; i++)
             {
-                if (int.Parse(info.features[i].properties.@class) != sindo)
+                judge = 0;
+                for (int j = 1; j < info.features.Length; j++)
                 {
-                    eq += $"\r\n【震度{info.features[i].properties.@class}】";
-                    sindo = int.Parse(info.features[i].properties.@class);
+                    if (info.features[j].properties.@class == Int[i])
+                    {
+                        judge++;
+                        if (judge == 1)
+                        {
+                            eq += $"【震度{Int[i]}】";
+                        }
+                        eq += info.features[j].properties.name + ", ";
+                    }
                 }
-                eq += $"{info.features[i].properties.name}, ";
+                if(judge != 0)  eq += "\r\n";
             }
             if (cachedEQTime != data.objects[0].OriginDateTime)
             {
@@ -122,13 +131,31 @@ namespace eqViewer
             var data = JsonConvert.DeserializeObject<eew>(json);
             if(data.ParseStatus == "Success")
             {
+                if (startup == true)
+                {
+                    startup = false;
+                    cachedEEWSerial = data.Serial;
+                }
+                else
+                {
+                    if (cachedEEWSerial != data.Serial)
+                    {
+                        cachedEEWSerial = data.Serial;
+                        notifyIcon2.BalloonTipTitle = $"{data.Title.String.Substring(0, data.Title.String.Length - 1)}第{data.Serial}報";
+                        if (data.Type.Code == 9) notifyIcon2.BalloonTipTitle += " 最終報";
+                        notifyIcon2.BalloonTipTitle += "）";
+                        notifyIcon2.BalloonTipText = $"{data.OriginTime.String} 発表\r\n震源:{data.Hypocenter.Name} M{data.Hypocenter.Magnitude.Float.ToString("0.0")}\r\nソース: {data.Source.String}";
+                        notifyIcon2.BalloonTipIcon = ToolTipIcon.Info;
+                        notifyIcon2.ShowBalloonTip(3000);
+                    }
+                }
                 labelEEWSokuho.Text = $"{data.Title.String.Substring(0, data.Title.String.Length - 1)}第{data.Serial}報";
                 if (data.Type.Code == 9) labelEEWSokuho.Text += " 最終報";
                 labelEEWSokuho.Text += "）";
                 labelEEWTime.Text = $"{data.OriginTime.String} 発生";
                 labelEEWHypocenter.Text = data.Hypocenter.Name;
                 labelEEWInt.Text = data.MaxIntensity.String;
-                labelEEWMagnitude.Text = data.Hypocenter.Magnitude.Float.ToString();
+                labelEEWMagnitude.Text = data.Hypocenter.Magnitude.Float.ToString("0.0");
                 labelEEWDepth.Text = $"{data.Hypocenter.Location.Depth.Int}Km";
                 labelEEWSource.Text = data.Source.String;
             }
