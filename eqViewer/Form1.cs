@@ -26,6 +26,7 @@ namespace eqViewer
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            comboBoxKyoshinType.SelectedIndex = 0;
             pictureBox1.ImageLocation = kyoshinUrl();
             textBox1.Text = hinetInfo();
             pictureBox2.ImageLocation = eqUrl();
@@ -63,7 +64,32 @@ namespace eqViewer
             time = dt.AddSeconds(-2).ToString("yyyyMMddHHmmss");
             date = dt.AddSeconds(-2).ToString("yyyyMMdd");
             //return $"https://realtime-earthquake-monitor.appspot.com/jma_s/{time}";
-            return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/jma_s/{date}/{time}.jma_s.gif";
+            switch (comboBoxKyoshinType.SelectedIndex)
+            {
+                case 0:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/jma_s/{date}/{time}.jma_s.gif";
+                case 1:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/acmap_s/{date}/{time}.acmap_s.gif";
+                case 2:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/vcmap_s/{date}/{time}.vcmap_s.gif";
+                case 3:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/dcmap_s/{date}/{time}.dcmap_s.gif";
+                case 4:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp0125_s/{date}/{time}.rsp0125_s.gif";
+                case 5:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp0250_s/{date}/{time}.rsp0250_s.gif";
+                case 6:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp0500_s/{date}/{time}.rsp0500_s.gif";
+                case 7:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp1000_s/{date}/{time}.rsp1000_s.gif";
+                case 8:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp2000_s/{date}/{time}.rsp2000_s.gif";
+                case 9:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp4000_s/{date}/{time}.rsp4000_s.gif";
+                default:
+                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/jma_s/{date}/{time}.jma_s.gif";
+            }
+            
         }
 
         public string eqUrl()

@@ -33,6 +33,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBoxKyoshinType = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -93,6 +94,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBoxKyoshinType);
             this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -101,6 +103,26 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "強震モニタ(NIED)";
+            // 
+            // comboBoxKyoshinType
+            // 
+            this.comboBoxKyoshinType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxKyoshinType.FormattingEnabled = true;
+            this.comboBoxKyoshinType.Items.AddRange(new object[] {
+            "リアルタイム震度",
+            "最大加速度(PGA)",
+            "最大速度(PGV)",
+            "最大変異(PGD)",
+            "0.125Hz速度応答",
+            "0.25Hz速度応答",
+            "0.5Hz速度応答",
+            "1.0Hz速度応答",
+            "2.0Hz速度応答",
+            "4.0Hz速度応答"});
+            this.comboBoxKyoshinType.Location = new System.Drawing.Point(242, 0);
+            this.comboBoxKyoshinType.Name = "comboBoxKyoshinType";
+            this.comboBoxKyoshinType.Size = new System.Drawing.Size(121, 20);
+            this.comboBoxKyoshinType.TabIndex = 1;
             // 
             // groupBox2
             // 
@@ -501,6 +523,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.NotifyIcon notifyIcon2;
+        private System.Windows.Forms.ComboBox comboBoxKyoshinType;
     }
 }
 
