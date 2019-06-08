@@ -87,6 +87,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="base_pga.png" />
+    <EmbeddedResource Include="base_pgd.png" />
+    <EmbeddedResource Include="base_pgv.png" />
+    <EmbeddedResource Include="base_sindo.png" />
     <Content Include="Icon1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

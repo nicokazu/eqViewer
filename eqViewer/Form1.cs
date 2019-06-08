@@ -61,9 +61,33 @@ namespace eqViewer
         {
             string time, date;
             dt = DateTime.Now;
+            int cached_bg = 0;
             time = dt.AddSeconds(-2).ToString("yyyyMMddHHmmss");
             date = dt.AddSeconds(-2).ToString("yyyyMMdd");
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Bitmap bmp = new Bitmap(assembly.GetManifestResourceStream("eqViewer.base_sindo.png"));
             //return $"https://realtime-earthquake-monitor.appspot.com/jma_s/{time}";
+            if (comboBoxKyoshinType.SelectedIndex == 0 && cached_bg != 0)
+            {
+                bmp = new Bitmap(assembly.GetManifestResourceStream("eqViewer.base_sindo.png"));
+                cached_bg = 0;
+            }
+            else if (comboBoxKyoshinType.SelectedIndex == 1 && cached_bg != 1)
+            {
+                bmp = new Bitmap(assembly.GetManifestResourceStream("eqViewer.base_pga.png"));
+                cached_bg = 1;
+            }
+            else if((comboBoxKyoshinType.SelectedIndex == 2 || comboBoxKyoshinType.SelectedIndex == 4 || comboBoxKyoshinType.SelectedIndex == 5 || comboBoxKyoshinType.SelectedIndex == 6 || comboBoxKyoshinType.SelectedIndex == 7 || comboBoxKyoshinType.SelectedIndex == 8 || comboBoxKyoshinType.SelectedIndex == 9) && cached_bg != 2)
+            {
+                bmp = new Bitmap(assembly.GetManifestResourceStream("eqViewer.base_pgv.png"));
+                cached_bg = 2;
+            }
+            else if(comboBoxKyoshinType.SelectedIndex == 3 && cached_bg != 3)
+            {
+                bmp = new Bitmap(assembly.GetManifestResourceStream("eqViewer.base_pgd.png"));
+                cached_bg = 3;
+            }
+            pictureBox1.BackgroundImage = bmp;
             switch (comboBoxKyoshinType.SelectedIndex)
             {
                 case 0:
