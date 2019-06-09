@@ -52,8 +52,6 @@
             this.labelSingen = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.labelEEWSource = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.labelEEWDepth = new System.Windows.Forms.Label();
             this.labelEEWMagnitude = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -291,8 +289,6 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.labelEEWSource);
-            this.groupBox5.Controls.Add(this.label7);
             this.groupBox5.Controls.Add(this.labelEEWDepth);
             this.groupBox5.Controls.Add(this.labelEEWMagnitude);
             this.groupBox5.Controls.Add(this.label6);
@@ -309,35 +305,14 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "緊急地震速報";
             // 
-            // labelEEWSource
-            // 
-            this.labelEEWSource.AutoSize = true;
-            this.labelEEWSource.Font = new System.Drawing.Font("M+ 2p", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelEEWSource.Location = new System.Drawing.Point(240, 145);
-            this.labelEEWSource.Name = "labelEEWSource";
-            this.labelEEWSource.Size = new System.Drawing.Size(48, 22);
-            this.labelEEWSource.TabIndex = 9;
-            this.labelEEWSource.Text = "label";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("M+ 2p", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(176, 145);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(58, 22);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "発表：";
-            // 
             // labelEEWDepth
             // 
             this.labelEEWDepth.AutoSize = true;
             this.labelEEWDepth.Font = new System.Drawing.Font("M+ 2p", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelEEWDepth.Location = new System.Drawing.Point(6, 145);
             this.labelEEWDepth.Name = "labelEEWDepth";
-            this.labelEEWDepth.Size = new System.Drawing.Size(48, 22);
+            this.labelEEWDepth.Size = new System.Drawing.Size(0, 22);
             this.labelEEWDepth.TabIndex = 7;
-            this.labelEEWDepth.Text = "label";
             // 
             // labelEEWMagnitude
             // 
@@ -345,9 +320,8 @@
             this.labelEEWMagnitude.Font = new System.Drawing.Font("M+ 2p", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.labelEEWMagnitude.Location = new System.Drawing.Point(195, 97);
             this.labelEEWMagnitude.Name = "labelEEWMagnitude";
-            this.labelEEWMagnitude.Size = new System.Drawing.Size(82, 38);
+            this.labelEEWMagnitude.Size = new System.Drawing.Size(0, 38);
             this.labelEEWMagnitude.TabIndex = 6;
-            this.labelEEWMagnitude.Text = "label";
             // 
             // label6
             // 
@@ -365,9 +339,8 @@
             this.labelEEWInt.Font = new System.Drawing.Font("M+ 2p", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.labelEEWInt.Location = new System.Drawing.Point(43, 97);
             this.labelEEWInt.Name = "labelEEWInt";
-            this.labelEEWInt.Size = new System.Drawing.Size(82, 38);
+            this.labelEEWInt.Size = new System.Drawing.Size(0, 38);
             this.labelEEWInt.TabIndex = 4;
-            this.labelEEWInt.Text = "label";
             // 
             // label2
             // 
@@ -385,9 +358,8 @@
             this.labelEEWHypocenter.Font = new System.Drawing.Font("M+ 2p", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelEEWHypocenter.Location = new System.Drawing.Point(6, 76);
             this.labelEEWHypocenter.Name = "labelEEWHypocenter";
-            this.labelEEWHypocenter.Size = new System.Drawing.Size(48, 22);
+            this.labelEEWHypocenter.Size = new System.Drawing.Size(0, 22);
             this.labelEEWHypocenter.TabIndex = 2;
-            this.labelEEWHypocenter.Text = "label";
             // 
             // labelEEWTime
             // 
@@ -395,9 +367,8 @@
             this.labelEEWTime.Font = new System.Drawing.Font("M+ 2p", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelEEWTime.Location = new System.Drawing.Point(6, 54);
             this.labelEEWTime.Name = "labelEEWTime";
-            this.labelEEWTime.Size = new System.Drawing.Size(48, 22);
+            this.labelEEWTime.Size = new System.Drawing.Size(0, 22);
             this.labelEEWTime.TabIndex = 1;
-            this.labelEEWTime.Text = "label";
             // 
             // labelEEWSokuho
             // 
@@ -405,9 +376,8 @@
             this.labelEEWSokuho.Font = new System.Drawing.Font("M+ 2p", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelEEWSokuho.Location = new System.Drawing.Point(6, 25);
             this.labelEEWSokuho.Name = "labelEEWSokuho";
-            this.labelEEWSokuho.Size = new System.Drawing.Size(48, 22);
+            this.labelEEWSokuho.Size = new System.Drawing.Size(0, 22);
             this.labelEEWSokuho.TabIndex = 0;
-            this.labelEEWSokuho.Text = "label";
             // 
             // groupBox6
             // 
@@ -508,8 +478,6 @@
         private System.Windows.Forms.Label labelDepth;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label labelEEWSource;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label labelEEWDepth;
         private System.Windows.Forms.Label labelEEWMagnitude;
         private System.Windows.Forms.Label label6;

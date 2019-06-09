@@ -17,7 +17,7 @@ namespace eqViewer
     {
         DateTime dt = new DateTime();
         DateTime? cachedEQTime = null;
-        int? cachedEEWSerial = null;
+        string cachedEEWSerial = null;
         bool startup = true;
         public Form1()
         {
@@ -26,6 +26,7 @@ namespace eqViewer
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            getServerTime();
             comboBoxKyoshinType.SelectedIndex = 0;
             pictureBox1.ImageLocation = kyoshinUrl();
             textBox1.Text = hinetInfo();
@@ -35,6 +36,15 @@ namespace eqViewer
             labelNowTime.Text = updateNowTime();
             timer1.Start();
             timer2.Start();
+        }
+
+        public void getServerTime()
+        {
+            var wc = new System.Net.WebClient();
+            wc.Encoding = Encoding.UTF8;
+            string json = wc.DownloadString("http://www.kmoni.bosai.go.jp/new/webservice/server/pros/latest.json");
+            var data = JsonConvert.DeserializeObject<server>(json);
+            dt = DateTime.Parse(data.latest_time);
         }
 
         public string hinetInfo()
@@ -60,7 +70,6 @@ namespace eqViewer
         public string kyoshinUrl()
         {
             string time, date;
-            dt = DateTime.Now;
             int cached_bg = 0;
             time = dt.AddSeconds(-2).ToString("yyyyMMddHHmmss");
             date = dt.AddSeconds(-2).ToString("yyyyMMdd");
@@ -175,50 +184,57 @@ namespace eqViewer
 
         public void eew()
         {
+            string time = dt.ToString("yyyyMMddHHmmss");
+            string json = "";
             var wc = new System.Net.WebClient();
             wc.Encoding = Encoding.UTF8;
-            string json = wc.DownloadString("https://api.iedred7584.com/eew/json/");
-            var data = JsonConvert.DeserializeObject<eew>(json);
-            if(data.ParseStatus == "Success")
+            try
             {
-                if (startup == true)
+                json = wc.DownloadString($"http://www.kmoni.bosai.go.jp/new/webservice/hypo/eew/{time}.json");
+                var data = JsonConvert.DeserializeObject<eew>(json);
+                if (data.result.status == "success" && data.result.message != "データがありません")
                 {
-                    startup = false;
-                    cachedEEWSerial = data.Serial;
-                }
-                else
-                {
-                    if (cachedEEWSerial != data.Serial)
+                    if (startup == true)
                     {
-                        cachedEEWSerial = data.Serial;
-                        notifyIcon2.BalloonTipTitle = $"{data.Title.String.Substring(0, data.Title.String.Length - 1)}第{data.Serial}報";
-                        if (data.Type.Code == 9) notifyIcon2.BalloonTipTitle += " 最終報";
-                        notifyIcon2.BalloonTipTitle += "）";
-                        notifyIcon2.BalloonTipText = $"{data.OriginTime.String} 発表\r\n震源:{data.Hypocenter.Name} M{data.Hypocenter.Magnitude.Float.ToString("0.0")}\r\nソース: {data.Source.String}";
-                        notifyIcon2.BalloonTipIcon = ToolTipIcon.Info;
-                        notifyIcon2.ShowBalloonTip(3000);
+                        startup = false;
+                        cachedEEWSerial = data.report_num;
                     }
+                    else
+                    {
+                        if (cachedEEWSerial != data.report_num)
+                        {
+                            cachedEEWSerial = data.report_num;
+                            notifyIcon2.BalloonTipTitle = $"緊急地震速報({data.alertflg}第{data.report_num}報";
+                            if (data.is_final == true) notifyIcon2.BalloonTipTitle += " 最終報";
+                            notifyIcon2.BalloonTipTitle += ")";
+                            notifyIcon2.BalloonTipText = $"{data.report_time} 発表\r\n震源:{data.region_name}\r\n震度{data.calcintensity} M{data.magunitude}";
+                            notifyIcon2.BalloonTipIcon = ToolTipIcon.Info;
+                            notifyIcon2.ShowBalloonTip(3000);
+                        }
+                    }
+                    labelEEWSokuho.Text = $"緊急地震速報({data.alertflg}第{data.report_num}報";
+                    if (data.is_final == true) labelEEWSokuho.Text += " 最終報";
+                    labelEEWSokuho.Text += ")";
+                    labelEEWTime.Text = $"{data.report_time} 発表";
+                    labelEEWHypocenter.Text = data.region_name;
+                    labelEEWInt.Text = data.calcintensity;
+                    labelEEWMagnitude.Text = data.magunitude;
+                    labelEEWDepth.Text = data.depth;
                 }
-                labelEEWSokuho.Text = $"{data.Title.String.Substring(0, data.Title.String.Length - 1)}第{data.Serial}報";
-                if (data.Type.Code == 9) labelEEWSokuho.Text += " 最終報";
-                labelEEWSokuho.Text += "）";
-                labelEEWTime.Text = $"{data.OriginTime.String} 発生";
-                labelEEWHypocenter.Text = data.Hypocenter.Name;
-                labelEEWInt.Text = data.MaxIntensity.String;
-                labelEEWMagnitude.Text = data.Hypocenter.Magnitude.Float.ToString("0.0");
-                labelEEWDepth.Text = $"{data.Hypocenter.Location.Depth.Int}Km";
-                labelEEWSource.Text = data.Source.String;
+            }
+            catch (Exception)
+            {
             }
         }
 
         public string updateNowTime()
         {
-            dt = DateTime.Now;
             return dt.ToString("yyyy/MM/dd HH:mm:ss");
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
+            getServerTime();
             pictureBox1.ImageLocation = kyoshinUrl();
             eew();
             labelNowTime.Text = updateNowTime();
@@ -226,6 +242,7 @@ namespace eqViewer
 
         private void Timer2_Tick(object sender, EventArgs e)
         {
+            getServerTime();
             pictureBox2.ImageLocation = eqUrl();
             textBox2.Text = sindo();
             textBox1.Text = hinetInfo();
@@ -307,151 +324,60 @@ namespace eqViewer
         public int Depth { get; set; }
         public string Japanese { get; set; }
     }
-
-
     public class eew
     {
-        public string ParseStatus { get; set; }
-        public Title Title { get; set; }
-        public Source Source { get; set; }
-        public Status Status { get; set; }
-        public Announcedtime AnnouncedTime { get; set; }
-        public Origintime OriginTime { get; set; }
-        public string EventID { get; set; }
-        public Type Type { get; set; }
-        public int Serial { get; set; }
-        public Hypocenter_eew Hypocenter { get; set; }
-        public Maxintensity MaxIntensity { get; set; }
-        public bool Warn { get; set; }
-        public Option Option { get; set; }
-        public string OriginalText { get; set; }
+        public Result result { get; set; }
+        public string report_time { get; set; }
+        public string region_code { get; set; }
+        public string request_time { get; set; }
+        public string region_name { get; set; }
+        public string longitude { get; set; }
+        public bool is_cancel { get; set; }
+        public string depth { get; set; }
+        public string calcintensity { get; set; }
+        public bool is_final { get; set; }
+        public bool is_training { get; set; }
+        public string latitude { get; set; }
+        public string origin_time { get; set; }
+        public Security security { get; set; }
+        public string magunitude { get; set; }
+        public string report_num { get; set; }
+        public string request_hypo_type { get; set; }
+        public string report_id { get; set; }
+        public string alertflg { get; set; }
     }
 
-    public class Title
+    public class Result
     {
-        public int Code { get; set; }
-        public string String { get; set; }
-        public string Detail { get; set; }
+        public string status { get; set; }
+        public string message { get; set; }
+        public bool is_auth { get; set; }
     }
 
-    public class Source
+    public class Security
     {
-        public int Code { get; set; }
-        public string String { get; set; }
+        public string realm { get; set; }
+        public string hash { get; set; }
     }
 
-    public class Status
+
+    public class server
     {
-        public string Code { get; set; }
-        public string String { get; set; }
-        public string Detail { get; set; }
+        public Security_s security { get; set; }
+        public string latest_time { get; set; }
+        public string request_time { get; set; }
+        public Result_s result { get; set; }
     }
 
-    public class Announcedtime
+    public class Security_s
     {
-        public string String { get; set; }
-        public int UnixTime { get; set; }
-        public string RFC1123 { get; set; }
+        public string realm { get; set; }
+        public string hash { get; set; }
     }
 
-    public class Origintime
+    public class Result_s
     {
-        public string String { get; set; }
-        public int UnixTime { get; set; }
-        public string RFC1123 { get; set; }
+        public string status { get; set; }
+        public string message { get; set; }
     }
-
-    public class Type
-    {
-        public int Code { get; set; }
-        public string String { get; set; }
-        public string Detail { get; set; }
-    }
-
-    public class Hypocenter_eew
-    {
-        public int Code { get; set; }
-        public string Name { get; set; }
-        public bool isAssumption { get; set; }
-        public Location Location { get; set; }
-        public Magnitude Magnitude { get; set; }
-        public Accuracy Accuracy { get; set; }
-        public bool isSea { get; set; }
-    }
-
-    public class Location
-    {
-        public float Lat { get; set; }
-        public float Long { get; set; }
-        public Depth Depth { get; set; }
-    }
-
-    public class Depth
-    {
-        public int Int { get; set; }
-        public string String { get; set; }
-    }
-
-    public class Magnitude
-    {
-        public float Float { get; set; }
-        public string String { get; set; }
-        public string LongString { get; set; }
-    }
-
-    public class Accuracy
-    {
-        public Epicenter Epicenter { get; set; }
-        public Depth1 Depth { get; set; }
-        public Magnitude1 Magnitude { get; set; }
-        public int NumberOfMagnitudeCalculation { get; set; }
-    }
-
-    public class Epicenter
-    {
-        public int Code { get; set; }
-        public string String { get; set; }
-        public int Rank2 { get; set; }
-        public string String2 { get; set; }
-    }
-
-    public class Depth1
-    {
-        public int Code { get; set; }
-        public string String { get; set; }
-    }
-
-    public class Magnitude1
-    {
-        public int Code { get; set; }
-        public string String { get; set; }
-    }
-
-    public class Maxintensity
-    {
-        public string From { get; set; }
-        public string To { get; set; }
-        public string String { get; set; }
-        public string LongString { get; set; }
-    }
-
-    public class Option
-    {
-        public Change Change { get; set; }
-    }
-
-    public class Change
-    {
-        public int Code { get; set; }
-        public string String { get; set; }
-        public Reason Reason { get; set; }
-    }
-
-    public class Reason
-    {
-        public int Code { get; set; }
-        public string String { get; set; }
-    }
-
-
 }
