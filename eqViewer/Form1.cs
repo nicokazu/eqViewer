@@ -42,7 +42,7 @@ namespace eqViewer
         {
             var wc = new System.Net.WebClient();
             wc.Encoding = Encoding.UTF8;
-            string json = wc.DownloadString("http://www.kmoni.bosai.go.jp/new/webservice/server/pros/latest.json");
+            string json = wc.DownloadString("http://www.kmoni.bosai.go.jp/webservice/server/pros/latest.json");
             var data = JsonConvert.DeserializeObject<server>(json);
             dt = DateTime.Parse(data.latest_time);
         }
@@ -100,27 +100,27 @@ namespace eqViewer
             switch (comboBoxKyoshinType.SelectedIndex)
             {
                 case 0:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/jma_s/{date}/{time}.jma_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/jma_s/{date}/{time}.jma_s.gif";
                 case 1:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/acmap_s/{date}/{time}.acmap_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/acmap_s/{date}/{time}.acmap_s.gif";
                 case 2:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/vcmap_s/{date}/{time}.vcmap_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/vcmap_s/{date}/{time}.vcmap_s.gif";
                 case 3:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/dcmap_s/{date}/{time}.dcmap_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/dcmap_s/{date}/{time}.dcmap_s.gif";
                 case 4:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp0125_s/{date}/{time}.rsp0125_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/rsp0125_s/{date}/{time}.rsp0125_s.gif";
                 case 5:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp0250_s/{date}/{time}.rsp0250_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/rsp0250_s/{date}/{time}.rsp0250_s.gif";
                 case 6:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp0500_s/{date}/{time}.rsp0500_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/rsp0500_s/{date}/{time}.rsp0500_s.gif";
                 case 7:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp1000_s/{date}/{time}.rsp1000_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/rsp1000_s/{date}/{time}.rsp1000_s.gif";
                 case 8:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp2000_s/{date}/{time}.rsp2000_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/rsp2000_s/{date}/{time}.rsp2000_s.gif";
                 case 9:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/rsp4000_s/{date}/{time}.rsp4000_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/rsp4000_s/{date}/{time}.rsp4000_s.gif";
                 default:
-                    return $"http://www.kmoni.bosai.go.jp/new/data/map_img/RealTimeImg/jma_s/{date}/{time}.jma_s.gif";
+                    return $"http://www.kmoni.bosai.go.jp/data/map_img/RealTimeImg/jma_s/{date}/{time}.jma_s.gif";
             }
             
         }
@@ -190,7 +190,7 @@ namespace eqViewer
             wc.Encoding = Encoding.UTF8;
             try
             {
-                json = wc.DownloadString($"http://www.kmoni.bosai.go.jp/new/webservice/hypo/eew/{time}.json");
+                json = wc.DownloadString($"http://www.kmoni.bosai.go.jp/webservice/hypo/eew/{time}.json");
                 var data = JsonConvert.DeserializeObject<eew>(json);
                 if (data.result.status == "success" && data.result.message != "データがありません")
                 {
